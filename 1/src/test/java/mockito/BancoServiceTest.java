@@ -18,7 +18,8 @@ public class BancoServiceTest {
 
     @Test
     public void testConsultarSaldo() {
-        when(contaRepository.buscarConta(any())).thenReturn(getMockConta());
+        Conta conta = new Conta("10", 1000);
+        when(contaRepository.buscarConta(any())).thenReturn(conta);
 
         BancoService service = new BancoService(contaRepository);
         double saldo = service.consultarSaldo("10");
@@ -30,7 +31,7 @@ public class BancoServiceTest {
 
     @Test
     public void testDepositar() {
-        Conta conta = getMockConta();
+        Conta conta = new Conta("10", 1000);
         when(contaRepository.buscarConta(any())).thenReturn(conta);
 
         BancoService service = new BancoService(contaRepository);
@@ -41,12 +42,5 @@ public class BancoServiceTest {
         verify(contaRepository).buscarConta("10");
         verify(contaRepository).salvar(conta);
         verifyNoMoreInteractions(contaRepository);
-    }
-
-    private Conta getMockConta(){
-        Conta conta = new Conta();
-        conta.setSaldo(1000);
-        conta.setNumero("10");
-        return conta;
     }
 }
